@@ -103,5 +103,43 @@ Choose an action:
 2. Get market research summary
 3. Extract structured data
 4. Exit
-Enter your choice (1-4): 4
+Enter your choice (1-4): 3
+
+
+Enter extraction_prompt: Extract the company names, their market shares, the current market size (in billions), and the projected market size by 2030 (in billions) from this document. Present the information as a JSON object with keys like "companies" (an array of objects with "name" and "market_share" keys), "current_market_size", and "projected_market_size_2030".
+
+
+		```json
+		{
+		  "companies": [
+		    {
+		      "name": "Innovate Inc.",
+		      "market_share": "12%"
+		    },
+		    {
+		      "name": "Synergy Systems",
+		      "market_share": "18%"
+		    },
+		    {
+		      "name": "FutureFlow",
+		      "market_share": "15%"
+		    },
+		    {
+		      "name": "QuantumLeap",
+		      "market_share": "3%"
+		    }
+		  ],
+		  "current_market_size": 15,
+		  "projected_market_size_2030": 40
+		}
+		```
+
+--------------
+
+Choose an action:
+1. Ask a question about the PDF
+2. Get market research summary
+3. Extract structured data
+4. Exit
+Enter your choice (1-4): 3
 Exiting AI Market Analyst Agent. Goodbye!
