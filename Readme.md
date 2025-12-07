@@ -58,7 +58,7 @@ Bash
 python main.py
 The application will launch in your browser (usually at http://localhost:7860)
     ```
-
+![alt text](image-1.png)
 
 ## Project Structure
 
@@ -78,7 +78,7 @@ The project is organized into the following directories and files:
 *   `README.md`: This file, providing an overview and instructions for the project.
 
 
-![alt text](image.png)
+
 
 This project includes a user-friendly web interface built with Gradio that demonstrates the agent's full capabilities and the Autonomous Routing feature.
 
