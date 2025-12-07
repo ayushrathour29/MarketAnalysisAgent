@@ -46,14 +46,19 @@ Follow these steps to set up and run the AI Market Analyst Agent locally:
 
 ## How to Run the Agent
 
-After completing the setup, you can run the interactive command-line interface (CLI) of the agent:
+Initialize Vector Database (RAG Setup) Run the setup script once to process the IncAI.pdf document and create the RAG embeddings:
 
-1.  **Ensure your virtual environment is active.**
-2.  **Execute the main CLI script:**
-    ```bash
-    python main.py
+Bash
+
+python setup_rag.py
+Launch the Gradio Web UI The main script (main.py) now starts the web application:
+
+Bash
+
+python main.py
+The application will launch in your browser (usually at http://localhost:7860)
     ```
-3.  The agent will present a menu with options (Q&A, Market Research Summary, Structured Data Extraction, Exit). Follow the prompts to interact with the agent.
+
 
 ## Project Structure
 
@@ -72,15 +77,23 @@ The project is organized into the following directories and files:
 *   `.gitignore`: Specifies files and directories to be ignored by Git.
 *   `README.md`: This file, providing an overview and instructions for the project.
 
-## Functionalities
 
-The AI Market Analyst Agent offers the following capabilities:
+![alt text](image.png)
 
-*   **Ask a question about the PDF:** Users can input a natural language question, and the agent will use the Gemini model to find and provide a relevant answer based on the PDF's content.
-*   **Get market research summary:** With a single command, the agent processes the PDF to identify and summarize key market research findings, including market size, growth, competitive landscape, and SWOT analysis.
-*   **Extract structured data:** Users can provide a specific prompt detailing the desired structured data (e.g., company names, market shares, current and projected market sizes) and the output format (e.g., JSON), and the agent will extract and present the information accordingly.
-```
+This project includes a user-friendly web interface built with Gradio that demonstrates the agent's full capabilities and the Autonomous Routing feature.
 
+🎯 Key Features of the UI:
+Single Input Field: The user only interacts with one main input box.
+
+Autonomous Routing: Based on the user's query, the embedded router (powered by the LLM) automatically directs the request to the correct underlying tool:
+
+Q&A (RAG): Used for specific questions or fact retrieval.
+
+SUMMARIZE: Used for high-level overviews or general synthesis.
+
+EXTRACT: Used when the user requests structured output (e.g., JSON lists of companies or risks).
+
+Real-time Feedback: The UI provides immediate confirmation of which tool the router selected for the query.
 
 ## working of code
 Welcome to the AI Market Analyst Agent!
@@ -136,10 +149,30 @@ Enter extraction_prompt: Extract the company names, their market shares, the cur
 
 --------------
 
-Choose an action:
-1. Ask a question about the PDF
-2. Get market research summary
-3. Extract structured data
-4. Exit
-Enter your choice (1-4): 3
-Exiting AI Market Analyst Agent. Goodbye!
+Design Decisions
+
+1. Chunking Strategy
+Size: 500 characters
+
+Overlap: 50 characters (10% of chunk size)
+
+Justification: This size was chosen to capture the necessary semantic context around complex technical terms or analytical statements common in market research without overwhelming the embedding model with extraneous noise. A small overlap ensures that key phrases or sentences split between two chunks remain fully readable for the LLM during the final generation stage.
+
+2. Embedding Model
+Model Used: models/gemini-embedding-001
+
+Justification: We selected the official Google AI embedding model for its robust performance in the financial and technical domain (as measured by MTEB benchmarks) and its seamless low-latency integration with the google-genai SDK and LangChain.
+
+3. Vector Database
+Database Used: ChromaDB
+
+Justification: ChromaDB was chosen for its lightweight, zero-setup, and in-memory persistence capabilities, making it ideal for a portable, local-first demonstration project. It fulfills the vector storage requirement without needing external infrastructure or complex configurations.
+
+4. Data Extraction Prompt
+Design Rationale: The extraction prompt is engineered for reliability using strict formatting rules and direct constraints, including:
+
+Schema Definition: Explicitly requesting a JSON structure with required key names.
+
+Output Constraint: Using phrasing like "Respond ONLY with a valid, clean JSON object" to minimize LLM preamble and hallucinations.
+
+Targeting: Directing the LLM to specific entities (company names, market shares, risks) to maximize extraction accuracy.

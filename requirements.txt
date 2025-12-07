@@ -1,2 +1,8 @@
 google-genai
 pathlib
+langchain 
+langchain-google-genai # LangChain's integration for Gemini
+langchain-community # For PDF loading (PyPDF) and ChromaDB
+chromadb # The vector store
+pypdf # For reading PDF files
+gradio
